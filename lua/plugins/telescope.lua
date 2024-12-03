@@ -1,24 +1,35 @@
 return {
-  -- change some telescope options and a keymap to browse plugin files
-  {
-    "nvim-telescope/telescope.nvim",
-    keys = {
-      -- add a keymap to browse plugin files
-      -- stylua: ignore
-      {
-        "<leader>fp",
-        function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
-        desc = "Find Plugin File",
-      },
-    },
-    -- change some options
-    opts = {
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
-        sorting_strategy = "ascending",
-        winblend = 0,
-      },
-    },
-  },
+	'nvim-telescope/telescope.nvim', branch = '0.1.x',
+	dependencies = { 'nvim-lua/plenary.nvim' },
+	keys = {
+		{
+			'<leader>ff', 
+			function()
+				require('telescope.builtin').find_files()
+			end,
+			desc = 'Telescope find files' 
+		},
+		{
+			'<leader>fg',
+			function()
+				require('telescope.builtin').live_grep()
+			end, 
+			desc = 'Telescope live grep' 
+		},
+		{
+			'<leader>fb', 
+			function()
+				require('telescope.builtin').buffers()
+			end,
+			desc = 'Telescope buffers' 
+		},
+		{
+			'<leader>fh', 
+			function()
+				require('telescope.builtin').help_tags()
+			end,
+			desc = 'Telescope help tags' 
+		},
+
+	},
 }
