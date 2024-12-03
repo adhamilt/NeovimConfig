@@ -1,4 +1,4 @@
-return  {
+return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "mason.nvim",
@@ -82,9 +82,9 @@ return  {
             },
           },
         },
-	{
-		rust_analyzer = { enabled = false },
-	},
+        {
+          rust_analyzer = { enabled = false },
+        },
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -103,7 +103,6 @@ return  {
   end,
   ---@param opts PluginLspOpts
   config = function(_, opts)
-
     -- diagnostics signs
     if vim.fn.has("nvim-0.10.0") == 0 then
       if type(opts.diagnostics.signs) ~= "boolean" then
@@ -170,6 +169,5 @@ return  {
         end
       end
     end
-
   end,
 }
