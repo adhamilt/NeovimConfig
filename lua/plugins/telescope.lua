@@ -6,6 +6,18 @@ return {
     {
       "<leader>ff",
       function()
+        local is_git = os.execute("git") == 0
+        if is_git then
+          require("telescope.builtin").git_files()
+        else
+          require("telescope.builtin").find_files()
+        end
+      end,
+      desc = "Telescope find files (auto)",
+    },
+    {
+      "<leader>fF",
+      function()
         require("telescope.builtin").find_files()
       end,
       desc = "Telescope find files",

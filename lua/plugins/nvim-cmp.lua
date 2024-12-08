@@ -37,6 +37,13 @@ return {
           cmp.abort()
           fallback()
         end,
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            cmp.confirm({ select = true })
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
       }),
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
