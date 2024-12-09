@@ -3,6 +3,7 @@ return {
   version = "^5", -- Recommended
   lazy = false, -- This plugin is already lazy
   ft = { "rust" },
+  dependencies = { "hrsh7th/cmp-nvim-lsp" },
   opts = {
     server = {
       on_attach = function(_, bufnr)
@@ -12,6 +13,9 @@ return {
         vim.keymap.set("n", "<leader>dr", function()
           vim.cmd.RustLsp("debuggables")
         end, { desc = "Rust Debuggables", buffer = bufnr })
+      end,
+      capabilites = function()
+        require("cmp_nvim_lsp").default_capabilites()
       end,
       default_settings = {
         -- rust-analyzer language server configuration
