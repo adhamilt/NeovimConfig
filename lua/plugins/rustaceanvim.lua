@@ -3,7 +3,7 @@ return {
   version = "^5", -- Recommended
   lazy = false, -- This plugin is already lazy
   ft = { "rust" },
-  dependencies = { "hrsh7th/cmp-nvim-lsp" },
+  dependencies = { "hrsh7th/cmp-nvim-lsp", "williamboman/mason.nvim" },
   opts = {
     server = {
       on_attach = function(_, bufnr)
@@ -42,6 +42,17 @@ return {
     },
   },
   config = function(_, opts)
+    local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
+    local codelldb = package_path .. "/extension/adapter/codelldb"
+    local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
+    local uname = io.popen("uname"):read("*l")
+    if uname == "Linux" then
+      library_path = package_path .. "/extension/lldb/lib/liblldb.so"
+    end
+    opts.dap = {
+      adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
+    }
+
     vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
   end,
 }

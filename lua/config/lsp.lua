@@ -17,34 +17,50 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     local wk = require("which-key")
     wk.add({
-      { "K", "<cmd>lua vim.lsp.buf.hover()<cr>", desc = "Lsp Hover Action", mode = "n", buffer = event.buf },
-      { "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", desc = "Goto Definition", mode = "n", buffer = event.buf },
-      { "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", desc = "Goto Declaration", mode = "n", buffer = event.buf },
+      { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+      { "K", vim.lsp.buf.hover, desc = "Hover", mode = "n", buffer = event.buf },
+      { "gd", vim.lsp.buf.definition, desc = "Goto Definition", mode = "n", buffer = event.buf },
+      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration", mode = "n", buffer = event.buf },
+      { "gy", vim.lsp.buf.type_definition, desc = "Goto T[y]pe Definition" },
       {
         "gi",
-        "<cmd>lua vim.lsp.buf.implementation()<cr>",
+        vim.lsp.buf.implementation,
         desc = "Goto Implementation",
         mode = "n",
         buffer = event.buf,
       },
       {
         "go",
-        "<cmd>lua vim.lsp.buf.type_definition()<cr>",
+        vim.lsp.buf.type_definition,
         desc = "Goto Type Definition",
         mode = "n",
         buffer = event.buf,
       },
-      { "gr", "<cmd>lua vim.lsp.buf.references()<cr>", desc = "Goto References", mode = "n", buffer = event.buf },
-      { "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc = "Goto Signature", mode = "n", buffer = event.buf },
-      { "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Lsp Rename", mode = "n", buffer = event.buf },
+      { "gr", vim.lsp.buf.references, desc = "Goto References", mode = "n", buffer = event.buf },
+      { "gs", vim.lsp.buf.signature_help, desc = "Goto Signature", mode = "n", buffer = event.buf },
+      { "<F2>", vim.lsp.buf.rename, desc = "Lsp Rename", mode = "n", buffer = event.buf },
       {
         "<F3>",
-        "<cmd>lua vim.lsp.buf.format({async = true})<cr>",
+        function()
+          vim.lsp.buf.format({ async = true })
+        end,
         desc = "Lsp Format",
         mode = "x",
         buffer = event.buf,
       },
-      { "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "Lsp Code Action", mode = "n", buffer = event.buf },
+      { "<F4>", vim.lsp.buf.code_action, desc = "Lsp Code Action", mode = "n", buffer = event.buf },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+      { "<leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" } },
+      { "<leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" } },
+      { "<leader>cr", vim.lsp.buf.rename, desc = "Rename" },
+      {
+        "<leader>uh",
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+        end,
+        desc = "Toggle Inlay Hints",
+        mode = { "n" },
+      },
     })
   end,
 })
