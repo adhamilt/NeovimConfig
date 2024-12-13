@@ -23,6 +23,34 @@ for name, sign in pairs(dap_icons) do
   )
 end
 
-require("mason-nvim-dap").setup({
-  ensure_installed = { "codelldb" },
-})
+local dap = require("dap")
+
+dap.adapters.codelldb = {
+  type = "server",
+  port = "${port}",
+  executable = {
+    -- CHANGE THIS to your path!
+    command = vim.fn.exepath("codelldb"),
+    args = { "--port", "${port}" },
+  },
+}
+
+if package.config:sub(1, 1) == "\\" then -- '\' for Windows '/' for other OS
+  dap.adapters.codelldb.detached = true
+end
+
+dap.configurations.cpp = {
+  {
+    name = "Launch file",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+  },
+}
+
+dap.configurations.c = dap.configurations.cpp
+dap.configurations.rust = dap.configurations.cpp
